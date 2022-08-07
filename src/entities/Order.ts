@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -17,6 +18,7 @@ export class Order extends BaseEntity {
   id: number;
 
   @Column()
+  @Generated("uuid")
   orderNumber: string;
 
   @CreateDateColumn()
@@ -28,11 +30,26 @@ export class Order extends BaseEntity {
   @Column({ type: "boolean", default: false })
   isCompleted: boolean;
 
-  @ManyToOne(() => Client, (client) => client.orders, { nullable: false })
-  client: Client;
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
+  @Column()
+  address: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  mobile: string;
+
+  // @ManyToOne(() => Client, (client) => client.orders, { nullable: false })
+  // client: Client;
 
   @OneToMany(() => OrderLine, (orderLines) => orderLines.product, {
-    nullable: true,
+    nullable: false,
   })
   orderLines: OrderLine[];
 }

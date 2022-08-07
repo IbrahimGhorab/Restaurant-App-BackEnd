@@ -26,30 +26,30 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  try {
-    let clients = await Client.find({ relations: { orders: true } });
-    let allClient = clients.map((client) => {
-      return { ...client, totalOrders: Order.length };
-    });
-    await res.send(allClient);
-  } catch (error) {
-    await res.send({ message: error });
-  }
-});
+// router.get("/", async (req, res) => {
+//   try {
+//     let clients = await Client.find({ relations: { orders: true } });
+//     let allClient = clients.map((client) => {
+//       return { ...client, totalOrders: Order.length };
+//     });
+//     await res.send(allClient);
+//   } catch (error) {
+//     await res.send({ message: error });
+//   }
+// });
 
-router.get("/:id", async (req, res) => {
-  const id = +req.params.id;
-  if (!id) {
-    await res.status(404).send({ message: "client not found" });
-  }
-  let client = await Client.findOne({
-    where: { id },
-    relations: { orders: true },
-  });
-  let newClient = { ...client, totalOrder: client?.orders.length };
-  await res.send(newClient);
-});
+// router.get("/:id", async (req, res) => {
+//   const id = +req.params.id;
+//   if (!id) {
+//     await res.status(404).send({ message: "client not found" });
+//   }
+//   let client = await Client.findOne({
+//     where: { id },
+//     relations: { orders: true },
+//   });
+//   let newClient = { ...client, totalOrder: client?.orders.length };
+//   await res.send(newClient);
+// });
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;

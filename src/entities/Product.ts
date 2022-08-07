@@ -25,6 +25,9 @@ export class Product extends BaseEntity {
   @Column()
   price: number;
 
+  // @Column()
+  // image: string;
+
   @Column({ type: "boolean", default: false })
   isPopular: boolean;
 

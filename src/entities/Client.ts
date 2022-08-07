@@ -35,6 +35,6 @@ export class Client extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Order, (orders) => orders.client, { nullable: true })
-  orders: Order[];
+  // @OneToMany(() => Order, (orders) => orders.client, { nullable: true })
+  // orders: Order[];
 }

@@ -24,9 +24,9 @@ export class OrderLine extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Order, (order) => order.orderLines ,{nullable:false})
+  @ManyToOne(() => Order, (order) => order.orderLines, { nullable: false })
   order: Order;
 
-  @ManyToOne(() => Product, (product) => product.orderLines,{nullable:false})
+  @ManyToOne(() => Product, (product) => product.orderLines, { nullable: false })
   product: Product;
 }

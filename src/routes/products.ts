@@ -30,16 +30,16 @@ router.get("/", async (req, res) => {
     let products = await Product.find({
       relations: { orderLines: true, category: true },
     });
-    let dataProducts = await products.map((product) => {
+    let dataProducts = products.map((product) => {
       return {
         ...product,
         TotalOrder: product.orderLines.length,
         category: product.category.name,
       };
     });
-    await res.send(dataProducts);
+    res.send(dataProducts);
   } catch (error) {
-    await res.status(500).send({ massege: error });
+    res.status(500).send({ massege: error });
   }
 });
 

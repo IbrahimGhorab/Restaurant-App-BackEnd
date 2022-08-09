@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Order } from "../entities/Order";
 import { OrderLine } from "../entities/OrderLine";
+import { Product } from "../entities/Product";
 
 const router = Router();
 
@@ -30,12 +31,18 @@ router.post("/", async (req, res) => {
     // let orderDetails;
     console.log(orderDetails);
     for (let i = 0; i < orderDetails.length; i++) {
-      let orderLine = OrderLine.create({
-        quantity: orderDetails[i].quantity,
-        product: orderDetails[i].product.id,
-        order,
+      let product = await Product.findOne({
+        where: { id: orderDetails[i].product.id },
       });
-      await orderLine.save();
+      if (product) {
+        let orderLine = OrderLine.create({
+          quantity: orderDetails[i].quantity,
+          product,
+          order,
+        });
+        await orderLine.save();
+        console.log(orderLine);
+      }
       // res.status(200).json(orderLine);
     }
     res.status(200).json(order);
@@ -45,10 +52,14 @@ router.post("/", async (req, res) => {
   }
 });
 
+//Order.find({ relations: ['orderLines', 'orderLines.product'], });
+
 router.get("/", async (req, res) => {
   try {
-    const orders = await Order.find({ relations: { orderLines: true } });
-    res.send(orders);
+    const orders = await Order.find({
+      relations: { orderLines: { product: true } },
+    });
+    res.json(orders);
   } catch (error) {
     res.status(500).send({ message: error });
   }

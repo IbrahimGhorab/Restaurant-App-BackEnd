@@ -48,7 +48,7 @@ export class Order extends BaseEntity {
   // @ManyToOne(() => Client, (client) => client.orders, { nullable: false })
   // client: Client;
 
-  @OneToMany(() => OrderLine, (orderLines) => orderLines.product, {
+  @OneToMany(() => OrderLine, (orderLines) => orderLines.order, {
     nullable: false,
   })
   orderLines: OrderLine[];

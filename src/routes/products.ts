@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
   try {
     const { name, description, price, categoryId } = req.body;
     if (!name || !description || !price || !categoryId) {
-      await res.status(404).send({ message: "Data Must Not Null" });
+      res.status(404).send({ message: "Data Must Not Null" });
     } else {
       let product = Product.create({
         name,
@@ -17,10 +17,10 @@ router.post("/", async (req, res) => {
         category: categoryId,
       });
       product.save();
-      await res.send(product);
+      res.send(product);
     }
   } catch (error) {
-    await res.status(500).send({ message: error });
+    res.status(500).send({ message: error });
   }
 });
 
@@ -48,15 +48,22 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
-      await res.status(404).send({ message: "Product is Not Found" });
+      res.status(404).send({ message: "Product is Not Found" });
     } else {
       let product = await Product.findOne({ where: { id: +id } });
-      await res.send(product);
+      res.send(product);
     }
   } catch (error) {
-    await res.status(500).send({ message: error });
+    res.status(500).send({ message: error });
   }
 });
+/**update Product */
+// router.patch("/:id", async (req, res) => {
+//   try {
+//     let { id } = req.params;
+//     let updatedProduct = Product.findOne({ where: { id: +id } });
+//   } catch (error) {}
+// });
 
 /**Delete Product */
 router.delete("/:id", async (req, res) => {

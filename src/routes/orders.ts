@@ -7,7 +7,10 @@ const router = Router();
 
 /**Create Order and save to date base*/
 router.post("/", async (req, res) => {
-  const { firstName, lastName, mobile, address, city, orderDetails } = req.body;
+  
+  try {
+    const { firstName, lastName, mobile, address, city, orderDetails } = req.body;
+  
   if (
     !firstName ||
     !lastName ||
@@ -18,7 +21,6 @@ router.post("/", async (req, res) => {
   ) {
     return res.status(404).send({ message: "data Must be Not Null" });
   }
-  try {
     let order = Order.create({
       firstName,
       lastName,
@@ -29,10 +31,10 @@ router.post("/", async (req, res) => {
     await order.save();
 
     // let orderDetails;
-    console.log(orderDetails);
+    
     for (let i = 0; i < orderDetails.length; i++) {
       let product = await Product.findOne({
-        where: { id: orderDetails[i].product.id },
+        where: { id: orderDetails[i].id },
       });
       if (product) {
         let orderLine = OrderLine.create({
@@ -41,7 +43,7 @@ router.post("/", async (req, res) => {
           order,
         });
         await orderLine.save();
-        console.log(orderLine);
+        
       }
       // res.status(200).json(orderLine);
     }
@@ -68,7 +70,7 @@ router.get("/:id", async (req, res) => {
   try {
     const orders = await Order.findOne({
       where: { id: +id },
-      relations: { orderLines: true },
+      relations: { orderLines: { product: true } },
     });
     res.send(orders);
   } catch (error) {

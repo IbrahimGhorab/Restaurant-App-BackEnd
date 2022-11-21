@@ -3,6 +3,7 @@ import { AppDataSource } from "./data-source";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+
 import clientsRouter from "./routes/clients";
 import categoriesRouter from "./routes/categories";
 import productsRouter from "./routes/products";

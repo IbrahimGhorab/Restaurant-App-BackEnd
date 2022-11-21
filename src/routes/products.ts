@@ -7,6 +7,7 @@ const router = Router();
 router.post("/", async (req, res) => {
   try {
     const { name, description, price, categoryId } = req.body;
+
     if (!name || !description || !price || !categoryId) {
       res.status(404).send({ message: "Data Must Not Null" });
     } else {
@@ -28,12 +29,12 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     let products = await Product.find({
-      relations: { orderLines: true, category: true },
+      relations: { category: true },
     });
     let dataProducts = products.map((product) => {
       return {
         ...product,
-        TotalOrder: product.orderLines.length,
+
         category: product.category.name,
       };
     });

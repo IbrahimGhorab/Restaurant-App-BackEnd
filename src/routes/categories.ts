@@ -7,16 +7,16 @@ router.post("/", async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) {
-      await res.status(404).send({ message: "category is required" });
+      res.status(404).send({ message: "category is required" });
     } else {
-      let category = await Category.create({
+      let category = Category.create({
         name,
       });
       category.save();
-      await res.send(category);
+      res.send(category);
     }
   } catch (error) {
-    await res.status(500).send({ message: error });
+    res.status(500).send({ message: error });
   }
 });
 
@@ -26,9 +26,9 @@ router.get("/", async (req, res) => {
     let dataCategories = categories.map((category) => {
       return { ...category, totalItems: category.products.length };
     });
-    await res.send(dataCategories);
+    res.send(dataCategories);
   } catch (error) {
-    await res.status(5000).send({ message: error });
+    res.status(5000).send({ message: error });
   }
 });
 
@@ -36,16 +36,16 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
-      await res.status(404).send({ message: "Category Not Found" });
+      res.status(404).send({ message: "Category Not Found" });
     }
     let category = await Category.findOne({
       where: { id: +id },
       relations: { products: true },
     });
     let dataCategory = { ...category, totalItems: category?.products.length };
-    await res.send(dataCategory);
+    res.send(dataCategory);
   } catch (error) {
-    await res.status(500).send({ message: error });
+   res.status(500).send({ message: error });
   }
 });
 
@@ -53,9 +53,9 @@ router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     let deletedCategory = await Category.delete(+id);
-    await res.send(deletedCategory);
+    res.send(deletedCategory);
   } catch (error) {
-    await res.status(500).send({ massege: error });
+    res.status(500).send({ message: error });
   }
 });
 
